@@ -1,4 +1,4 @@
-// Updated server.js to include news proxy
+// server.js
 
 require('dotenv').config();
 
@@ -57,18 +57,12 @@ app.get('/weather', async (req, res) => {
   }
 });
 
-// News Proxy Endpoint
+// NewsAPI Endpoint
 app.get('/api/news', async (req, res) => {
-  const apiKey = process.env.GUARDIAN_API_KEY; // Add Guardian API key to your backend .env
-  const guardianApiUrl = 'https://content.guardianapis.com/search';
-
   try {
-    const response = await axios.get(guardianApiUrl, {
-      params: {
-        q: 'cybersecurity',
-        'api-key': apiKey,
-      },
-    });
+    const response = await axios.get(
+      `https://newsapi.org/v2/everything?q=cybersecurity&sortBy=publishedAt&language=en&pageSize=10&apiKey=${process.env.NEWSAPI_KEY}`
+    );
     res.json(response.data);
   } catch (error) {
     console.error('Error fetching news:', error.message);
