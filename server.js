@@ -1,4 +1,4 @@
-// Updated server.js
+// server.js
 
 require('dotenv').config();
 
@@ -57,14 +57,8 @@ app.get('/weather', async (req, res) => {
   }
 });
 
-// NewsAPI Proxy Endpoint
+// News API Endpoint
 app.get('/api/news', async (req, res) => {
-  const apiKey = process.env.NEWSAPI_KEY;
-
-  if (!apiKey) {
-    return res.status(500).json({ error: 'API key not defined' });
-  }
-
   try {
     const response = await axios.get('https://newsapi.org/v2/everything', {
       params: {
@@ -72,11 +66,10 @@ app.get('/api/news', async (req, res) => {
         sortBy: 'publishedAt',
         language: 'en',
         pageSize: 10,
-        apiKey: apiKey,
+        apiKey: process.env.NEWS_API_KEY, // Using the API key from environment variables
       },
     });
-
-    res.json(response.data);
+    res.json(response.data.articles);
   } catch (error) {
     console.error('Error fetching news:', error.message);
     res.status(500).json({ error: 'Failed to fetch news' });
