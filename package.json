@@ -15,7 +15,8 @@
     "nodemailer": "^6.9.15"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "echo 'No build step required for backend-only project'"
   },
   "eslintConfig": {
     "extends": [
