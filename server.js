@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(
   cors({
-    origin: '*',
+    origin: ['https://famous-hamster-678a3f.netlify.app'], // Update with your frontend URL
     credentials: true,
   })
 );
@@ -56,7 +56,6 @@ app.get('/weather', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch weather data' });
   }
 });
-
 
 // Authentication Routes
 app.use('/api/auth', authRoutes);
