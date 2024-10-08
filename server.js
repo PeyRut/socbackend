@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(
   cors({
-    origin: ['https://famous-hamster-678a3f.netlify.app'], // Update with your frontend URL
+    origin: '*',
     credentials: true,
   })
 );
@@ -54,6 +54,25 @@ app.get('/weather', async (req, res) => {
   } catch (error) {
     console.error('Error fetching weather data:', error.message);
     res.status(500).json({ error: 'Failed to fetch weather data' });
+  }
+});
+
+// News API Proxy Endpoint
+app.get('/api/news', async (req, res) => {
+  try {
+    const response = await axios.get('https://newsapi.org/v2/everything', {
+      params: {
+        q: 'cybersecurity',
+        sortBy: 'publishedAt',
+        language: 'en',
+        pageSize: 10,
+        apiKey: process.env.NEWS_API_KEY, // Replace with your News API key
+      },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching news:', error.message);
+    res.status(500).json({ error: 'Failed to fetch news' });
   }
 });
 
