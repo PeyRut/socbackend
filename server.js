@@ -1,4 +1,4 @@
-// server.js
+// Updated server.js
 
 require('dotenv').config();
 
@@ -57,14 +57,15 @@ app.get('/weather', async (req, res) => {
   }
 });
 
-// Cybersecurity News Endpoint
+// NewsAPI Proxy Endpoint
 app.get('/api/news', async (req, res) => {
-  try {
-    const apiKey = process.env.NEWS_API_KEY; // Use API key from environment variable
-    if (!apiKey) {
-      return res.status(500).json({ error: 'API key not defined' });
-    }
+  const apiKey = process.env.NEWSAPI_KEY;
 
+  if (!apiKey) {
+    return res.status(500).json({ error: 'API key not defined' });
+  }
+
+  try {
     const response = await axios.get('https://newsapi.org/v2/everything', {
       params: {
         q: 'cybersecurity',
