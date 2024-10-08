@@ -88,27 +88,6 @@ app.use('/api/auth', authRoutes);
 // User Management Routes (Protected)
 app.use('/api/users', verifyToken, verifyAdmin, userRoutes);
 
-// PTO Endpoint
-app.post('/api/pto', verifyToken, async (req, res) => {
-  const { startDate, endDate, replacement } = req.body;
-
-  try {
-    const ptoRequest = {
-      user: req.user.id,
-      startDate,
-      endDate,
-      replacement,
-    };
-    // Assuming you have a PTO model
-    await PTO.create(ptoRequest);
-
-    res.status(200).json({ message: 'PTO request submitted successfully' });
-  } catch (err) {
-    console.error('Error creating PTO request:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
 // Temporary route to create an admin user (remove or comment out after use)
 app.post('/create-admin', async (req, res) => {
   const { username, password } = req.body;
