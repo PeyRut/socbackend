@@ -16,7 +16,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "echo 'No build step required for backend-only project'"
+    "build": "echo 'No build step required for backend-only project'",
+    "install": "npm install"
   },
   "eslintConfig": {
     "extends": [
