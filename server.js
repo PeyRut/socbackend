@@ -1,4 +1,4 @@
-// server.js
+// Updated server.js
 
 require('dotenv').config();
 
@@ -57,12 +57,25 @@ app.get('/weather', async (req, res) => {
   }
 });
 
-// NewsAPI Endpoint
+// NewsAPI Proxy Endpoint
 app.get('/api/news', async (req, res) => {
+  const apiKey = process.env.NEWSAPI_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({ error: 'API key not defined' });
+  }
+
   try {
-    const response = await axios.get(
-      `https://newsapi.org/v2/everything?q=cybersecurity&sortBy=publishedAt&language=en&pageSize=10&apiKey=${process.env.NEWSAPI_KEY}`
-    );
+    const response = await axios.get('https://newsapi.org/v2/everything', {
+      params: {
+        q: 'cybersecurity',
+        sortBy: 'publishedAt',
+        language: 'en',
+        pageSize: 10,
+        apiKey: apiKey,
+      },
+    });
+
     res.json(response.data);
   } catch (error) {
     console.error('Error fetching news:', error.message);
