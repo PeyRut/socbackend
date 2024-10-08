@@ -57,19 +57,25 @@ app.get('/weather', async (req, res) => {
   }
 });
 
-// News API Endpoint
+// Cybersecurity News Endpoint
 app.get('/api/news', async (req, res) => {
   try {
+    const apiKey = process.env.NEWS_API_KEY; // Use API key from environment variable
+    if (!apiKey) {
+      return res.status(500).json({ error: 'API key not defined' });
+    }
+
     const response = await axios.get('https://newsapi.org/v2/everything', {
       params: {
         q: 'cybersecurity',
         sortBy: 'publishedAt',
         language: 'en',
         pageSize: 10,
-        apiKey: process.env.NEWS_API_KEY, // Using the API key from environment variables
+        apiKey: apiKey,
       },
     });
-    res.json(response.data.articles);
+
+    res.json(response.data);
   } catch (error) {
     console.error('Error fetching news:', error.message);
     res.status(500).json({ error: 'Failed to fetch news' });
