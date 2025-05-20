@@ -32,6 +32,10 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { username, password, isAdmin } = req.body;
 
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
   try {
     // Check if user already exists
     const existingUser = await User.findOne({ username });

@@ -85,6 +85,10 @@ app.use('/api/users', verifyToken, verifyAdmin, userRoutes);
 // Temporary route to create an admin user (remove or comment out after use)
 app.post('/create-admin', async (req, res) => {
   const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ msg: 'Username and password are required' });
+  }
   try {
     // Check if the user already exists
     const existingUser = await User.findOne({ username });
